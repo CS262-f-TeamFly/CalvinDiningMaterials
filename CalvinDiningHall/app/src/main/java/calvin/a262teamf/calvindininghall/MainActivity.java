@@ -17,3 +17,5 @@ public class MainActivity extends AppCompatActivity {
 //making small change shurjo yeye\
 
 //Made some small edit to code base on this new branch.\
+
+// This is an edit by Kristofer!
