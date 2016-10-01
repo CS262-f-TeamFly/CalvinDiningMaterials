@@ -2,6 +2,7 @@ package calvin.a262teamf.calvindininghall;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -17,29 +18,24 @@ public class TimeLabel extends RelativeLayout {
 
     public TimeLabel(Context context) {
         super(context);
-        init();
     }
 
     public TimeLabel(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
     }
 
     public TimeLabel(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
     }
 
     public TimeLabel(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
     }
 
-    // http://trickyandroid.com/protip-inflating-layout-for-your-custom-view/
-    private void init() {
-        inflate(getContext(), R.layout.time_label, this);
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
         this.name = (TextView)findViewById(R.id.name);
-        ((TextView)((LinearLayout)getChildAt(0)).getChildAt(2)).setText("hi there");
     }
 
     public void setName(String name) {

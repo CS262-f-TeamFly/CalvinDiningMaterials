@@ -132,7 +132,7 @@ public class EventListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Log.v("X", "Changing text " + String.valueOf(position));
-        TimeLabel tl = new TimeLabel(context);
+        TimeLabel tl = (TimeLabel)layoutInflater.inflate(R.layout.time_label, parent, false);
         DisplayItem displayItem = this.displayItems.get(position);
         if (displayItem.event != null) {
             tl.setName(displayItem.event.name);
