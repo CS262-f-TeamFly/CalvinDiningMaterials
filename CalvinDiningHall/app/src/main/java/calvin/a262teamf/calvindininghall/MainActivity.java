@@ -23,6 +23,5 @@ public class MainActivity extends AppCompatActivity {
                 new EventListAdapter.Event("Lunch", new GregorianCalendar(2016, 10, 1, 11, 0), new GregorianCalendar(2016, 10, 1, 12, 0)),
                 new EventListAdapter.Event("Dinner", new GregorianCalendar(2016, 10, 1, 17, 0), new GregorianCalendar(2016, 10, 1, 18, 0)),
         });
-
     }
 }
