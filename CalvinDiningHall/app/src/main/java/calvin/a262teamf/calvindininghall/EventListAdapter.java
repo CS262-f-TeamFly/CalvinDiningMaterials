@@ -38,11 +38,14 @@ public class EventListAdapter extends BaseAdapter {
             this.endTime = endTime;
         }
     }
+    // Only difference is from times gregorian calendar to string.
     static class DisplayItem {
-        public final String time;
+        public final String beginTime;
+        public final String endTime;
         public final Event event;
-        public DisplayItem(String time, Event event){
-            this.time = time;
+        public DisplayItem(String beginTime, String endTime, Event event){
+            this.beginTime = beginTime;
+            this.endTime = endTime;
             this.event = event;
         }
     }
@@ -67,7 +70,7 @@ public class EventListAdapter extends BaseAdapter {
                 displayItems.clear();
                 Log.d("X", "run: uhh, setevents " + events.length);
                 if (events.length > 0) {
-                    // Sort events by end time
+                    // Sort events by end time ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     Arrays.sort(events, new Comparator<Event>() {
                         @Override
                         public int compare(Event o1, Event o2) {
@@ -76,6 +79,10 @@ public class EventListAdapter extends BaseAdapter {
                     });
                     // Store latest end time into variable
                     int endHour = events[events.length - 1].endTime.get(Calendar.HOUR_OF_DAY);
+                    // Set endHour to be the latest hour + 1 hour
+                    endHour = Math.min(23, endHour + 1); // TODO fix if latest thing in schedule goes to 11pm or 23HH because hour 24 isn't allowed
+
+                    // Sort events by start time -------------------------------------------------------------------------------
                     Log.d("X", "endHour comes from " + events[events.length - 1].name + " and is " + endHour);
                     // Sort events by begin time
                     Arrays.sort(events, new Comparator<Event>() {
@@ -84,18 +91,29 @@ public class EventListAdapter extends BaseAdapter {
                             return o1.beginTime.compareTo(o2.beginTime);
                         }
                     });
+                    int startHour = events[0].beginTime.get(Calendar.HOUR_OF_DAY);
+                    // Set startHour to be first hour - 1 hour
+                    startHour = Math.max(0, startHour - 1);
+
                     // Set displayItems
                     DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(context);
-                    int startHour = events[0].beginTime.get(Calendar.HOUR_OF_DAY);
                     Log.d("X", "startHour comes from " + events[0].name + " and is " + startHour);
-                    GregorianCalendar formattingCalendar = (GregorianCalendar) events[0].beginTime.clone();
-                    for (int fieldId = Calendar.MINUTE; fieldId <= Calendar.MILLISECOND; fieldId++) {
-                        formattingCalendar.set(fieldId, 0);
-                    }
+
+
+                    // GregorianCalendar formattingCalendar = (GregorianCalendar) events[0].beginTime.clone();
+                    //for (int fieldId = Calendar.MINUTE; fieldId <= Calendar.MILLISECOND; fieldId++) {
+                    //    formattingCalendar.set(fieldId, 0);
+                    //}
                     Log.v("X", "startHour = " + startHour + ", endHour = " + endHour);
+
+                    // TODO Make this better. It looks terrible right now
+                    // Version that does it per hour
+                    /*
                     for (int i = startHour; i < endHour; i++) {
                         Log.v("X", "Running for loop");
                         Event displayEvent = null;
+
+                        // Check to see if each hour is in the event.
                         for (Event event : events) {
                             if (event.beginTime.get(Calendar.HOUR_OF_DAY) <= i && i <= event.endTime.get(Calendar.HOUR_OF_DAY)) {
                                 displayEvent = event;
@@ -103,11 +121,26 @@ public class EventListAdapter extends BaseAdapter {
                         }
                         formattingCalendar.set(Calendar.HOUR_OF_DAY, i);
                         DisplayItem displayItem = new DisplayItem(
-                                timeFormat.format(formattingCalendar.getTime()),
-                                displayEvent);
+                                timeFormat.format(formattingCalendar.getTime()), // startTime
+                                timeFormat.format(formattingCalendar.getTime()), // endTime
+                                displayEvent); // event
+
+
+
+                        displayItems.add(displayItem);
+                    }*/
+                    // Version that does it per event
+                    for (Event event: events) {
+                        DisplayItem displayItem = new DisplayItem(
+                                timeFormat.format(event.beginTime.getTime()),
+                                timeFormat.format(event.endTime.getTime()),
+                                event
+                        );
                         displayItems.add(displayItem);
                     }
                 }
+
+
                 notifyDataSetChanged(); // rerun getView to notice new changes
             }
         });
@@ -134,12 +167,13 @@ public class EventListAdapter extends BaseAdapter {
         Log.v("X", "Changing text " + String.valueOf(position));
         TimeLabel tl = (TimeLabel)layoutInflater.inflate(R.layout.time_label, parent, false);
         DisplayItem displayItem = this.displayItems.get(position);
+
+        // TODO use something better than an if else
         if (displayItem.event != null) {
-            tl.set(false, displayItem.event.name);
+            tl.set(true, displayItem.event.name, displayItem.beginTime, displayItem.endTime);
         } else {
-            tl.set(false, displayItem.time);
+            tl.set(false, displayItem.event.name, displayItem.beginTime, displayItem.endTime);
         }
         return tl;
     }
-
 }

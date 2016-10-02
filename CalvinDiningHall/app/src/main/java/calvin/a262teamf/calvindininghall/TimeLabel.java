@@ -2,6 +2,7 @@ package calvin.a262teamf.calvindininghall;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.media.Rating;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 public class TimeLabel extends RelativeLayout {
     private TextView name;
+    private TextView beginTime;
+    private TextView endTime;
 
     public TimeLabel(Context context) {
         super(context);
@@ -39,12 +42,14 @@ public class TimeLabel extends RelativeLayout {
         // Get theme
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = getContext().getTheme();
-        theme.resolveAttribute(R.attr.colorAccent, typedValue, true);
+        theme.resolveAttribute(android.R.attr.colorBackground, typedValue, true);
         int color = typedValue.data;
+
+        // TODO make own color for this http://stackoverflow.com/a/30905173/2948122
         if (isCurrent) { // Highlight block
-            setBackgroundColor(0xff00ff00);
+            setBackgroundColor(color);
         } else { // Dehighlight block
-            setBackgroundColor(0xff0000ff);
+            setBackgroundColor(color);
         }
     }
 
@@ -52,10 +57,14 @@ public class TimeLabel extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         this.name = (TextView)findViewById(R.id.name);
+        this.beginTime = (TextView)findViewById(R.id.beginTime);
+        this.endTime = (TextView)findViewById(R.id.endTime);
     }
 
-    public void set(Boolean isCurrent, String name) {
+    public void set(Boolean isCurrent, String name, String beginTime, String endTime) {
         setIsCurrent(isCurrent);
         this.name.setText(name);
+        this.beginTime.setText(beginTime);
+        this.endTime.setText(endTime);
     }
 }
