@@ -135,9 +135,9 @@ public class EventListAdapter extends BaseAdapter {
         TimeLabel tl = (TimeLabel)layoutInflater.inflate(R.layout.time_label, parent, false);
         DisplayItem displayItem = this.displayItems.get(position);
         if (displayItem.event != null) {
-            tl.setName(displayItem.event.name);
+            tl.set(false, displayItem.event.name);
         } else {
-            tl.setName(displayItem.time);
+            tl.set(false, displayItem.time);
         }
         return tl;
     }
