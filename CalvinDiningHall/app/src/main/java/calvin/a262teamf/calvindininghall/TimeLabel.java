@@ -47,7 +47,7 @@ public class TimeLabel extends RelativeLayout {
 
         // TODO make own color for this http://stackoverflow.com/a/30905173/2948122
         if (isCurrent) { // Highlight block
-            setBackgroundColor(color);
+            setBackgroundColor(0xff24ff12);
         } else { // Dehighlight block
             setBackgroundColor(color);
         }

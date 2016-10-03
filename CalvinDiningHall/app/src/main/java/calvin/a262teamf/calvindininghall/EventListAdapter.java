@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.ListIterator;
 
 /**
  * Created by Kristofer on 9/30/2016.
@@ -43,10 +44,15 @@ public class EventListAdapter extends BaseAdapter {
         public final String beginTime;
         public final String endTime;
         public final Event event;
+        public String duration = "";
         public DisplayItem(String beginTime, String endTime, Event event){
             this.beginTime = beginTime;
             this.endTime = endTime;
             this.event = event;
+        }
+
+        public void setDuration(String duration) {
+            this.duration = duration;
         }
     }
 
@@ -68,7 +74,7 @@ public class EventListAdapter extends BaseAdapter {
             @Override
             public void run() {
                 displayItems.clear();
-                Log.d("X", "run: uhh, setevents " + events.length);
+                Log.d("X", "run: setevents " + events.length);
                 if (events.length > 0) {
                     // Sort events by end time ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                     Arrays.sort(events, new Comparator<Event>() {
@@ -125,22 +131,36 @@ public class EventListAdapter extends BaseAdapter {
                                 timeFormat.format(formattingCalendar.getTime()), // endTime
                                 displayEvent); // event
 
-
-
                         displayItems.add(displayItem);
                     }*/
-                    // Version that does it per event
+                    // Add events that are empty so it can fill in the gaps this assumes events don't overlap.
+                    // TODO what if events overlap? oh no
+                    GregorianCalendar beginOverlap = (GregorianCalendar) events[0].beginTime.clone();
+                    beginOverlap.set(Calendar.HOUR_OF_DAY, startHour);
+                    beginOverlap.set(Calendar.MINUTE, 0);
+                    GregorianCalendar endOverlap;
+
                     for (Event event: events) {
+                        endOverlap = event.beginTime;
+                        // Make time between events
+                        DisplayItem betweenEvents = new DisplayItem(
+                                timeFormat.format(beginOverlap.getTime()),
+                                timeFormat.format(endOverlap.getTime()),
+                                null
+                        );
+                        beginOverlap = event.endTime;
+                        betweenEvents.setDuration("DURATION"); // TODO duration
+
+                        // Make event display item
                         DisplayItem displayItem = new DisplayItem(
                                 timeFormat.format(event.beginTime.getTime()),
                                 timeFormat.format(event.endTime.getTime()),
                                 event
                         );
+                        displayItems.add(betweenEvents);
                         displayItems.add(displayItem);
                     }
                 }
-
-
                 notifyDataSetChanged(); // rerun getView to notice new changes
             }
         });
@@ -172,7 +192,7 @@ public class EventListAdapter extends BaseAdapter {
         if (displayItem.event != null) {
             tl.set(true, displayItem.event.name, displayItem.beginTime, displayItem.endTime);
         } else {
-            tl.set(false, displayItem.event.name, displayItem.beginTime, displayItem.endTime);
+            tl.set(false, displayItem.duration, displayItem.beginTime, displayItem.endTime);
         }
         return tl;
     }
