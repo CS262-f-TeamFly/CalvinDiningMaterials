@@ -27,5 +27,6 @@ public class MainActivity extends AppCompatActivity {
                 new EventListAdapter.Event("End of day", new GregorianCalendar(2016, 10, 1, 22, 10), new GregorianCalendar(2016, 10, 1, 23, 0)),
         });
         // TODO add swipe from right menu or left. But I think right is easier on the hand
+        // Go to kpgbrink and check out calvin dining test
     }
 }
