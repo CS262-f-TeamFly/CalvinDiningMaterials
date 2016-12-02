@@ -1,4 +1,4 @@
-Materials for Calvin Dining Hall App
+#Materials for Calvin Dining Hall App
 
 This repository contains the materials that we will use to plan out our work and code.
 
