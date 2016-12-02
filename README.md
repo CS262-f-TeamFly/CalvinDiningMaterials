@@ -17,15 +17,10 @@ Jake Schott
 
 ##Project Management Records
 
+Materials -> https://github.com/CS262-f-TeamFly/CalvinDiningMaterials/wiki/Materials
+
 Slack -> https://best262team.slack.com/
 
 Trello -> https://trello.com/b/VOQuXSeZ
 
 Github ->https://github.com/CS262-f-TeamFly
-
-##Materials Repo -> https://github.com/CS262-f-TeamFly/CalvinDiningMaterials
-
-   Supplemental Specifications -> https://github.com/CS262-f-TeamFly/CalvinDiningMaterials/blob/master/supplemental_specifications.txt
-   User Interface -> https://github.com/CS262-f-TeamFly/CalvinDiningMaterials/blob/master/UI_v3.png
-   Usability testing -> https://github.com/CS262-f-TeamFly/CalvinDiningMaterials/blob/master/user_test.docx
-   Domain Model -> https://github.com/CS262-f-TeamFly/CalvinDiningMaterials/blob/master/DomainModelV3.PNG
