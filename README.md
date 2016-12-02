@@ -8,10 +8,10 @@ The goal of this project is to build a comprehensive dining app for Calvin stude
 
 ##Thank You Stakeholders!
 
-Corey Noble
-Logan VanProyen
-Jay Bigelow
-Casey Jones
+Corey Noble,
+Logan VanProyen,
+Jay Bigelow,
+Casey Jones,
 Jake Schott
 
 
